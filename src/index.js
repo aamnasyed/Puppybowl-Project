@@ -1,11 +1,12 @@
 import { createRoot } from "react-dom/client";
 import {useState, useEffect } from "react";
-import './style.css'
 import {BrowserRouter, Link, Route, Routes} from "react-router-dom"; 
+
+import {PuppyList, SinglePuppy } from "./components";
 
 const Homepage = () => {
 
-    const[puppybowl, setPuppybowl] = useState([]);
+    const[puppyBowl, setPuppyBowl] = useState([]);
 
     useEffect(() => { 
 
@@ -18,7 +19,7 @@ const Homepage = () => {
                 const actualPuppyData = translatedData.data.players
 
                 console.log(translatedData.data.players)
-                setPuppybowl(actualPuppyData);
+                setPuppyBowl(actualPuppyData);
             } catch (error) {
                 console.log(error);
             
@@ -31,20 +32,16 @@ const Homepage = () => {
     return (
         <BrowserRouter>
             <div>
-                {/* <Routes>
-                    <Route path="/" element={All}
-                </Routes> */}
-                { 
-                    puppybowl.length ? puppybowl.map((singlePuppybowlElement, idx) => { 
-                        return ( 
-                            <div key={idx}>
-                                <p id="name"> Name: {singlePuppybowlElement.name} </p>
-                                <p id="breed">Breed: {singlePuppybowlElement.breed} </p>
-                                <img id="image" src={singlePuppybowlElement.imageUrl} />
-                            </div> 
-                        )  
-                    }) : <div> Puppy data not available </div>
-                }
+                <nav>
+                    <Link to="/"> Homepage</Link>
+                </nav>
+
+                <Routes> 
+                    <Route path="/" element={<PuppyList puppyProps={puppyBowl}/>} />
+                    <Route path="/puppy/:id" element={<SinglePuppy puppyProps={puppyBowl}/>} />
+
+                </Routes>
+               
             </div>
         </BrowserRouter>
     )
